@@ -97,7 +97,7 @@ export default {
 
 <style scoped>
 .vehicle-info {
-  background: white;
+  background: #c5c4c4;
   border-radius: 8px;
   padding: 1.5rem;
   margin-top: 1.5rem;

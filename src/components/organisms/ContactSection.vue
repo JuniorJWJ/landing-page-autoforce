@@ -1,6 +1,6 @@
 <template>
   <section class="contact-section">
-    <h2 class="section-title">Interessado no veículo?</h2>
+    <h2 class="section-title">Interessado em algum carro?</h2>
     <p class="section-subtitle">Entre em contato conosco</p>
 
     <ContactForm class="contact-form" />
@@ -24,7 +24,7 @@ export default {
 <style scoped>
 .contact-section {
   margin-top: 1.5rem;
-  background: white;
+  background: #c5c4c4;
   border-radius: 8px;
   padding: 1.5rem;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);

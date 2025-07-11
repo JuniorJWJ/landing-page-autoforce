@@ -22,7 +22,7 @@ export default {
 }
 
 body {
-  background-color: #c0bfbf;
+  background-color: #FFF;
   color: #333;
   line-height: 1.6;
 }
