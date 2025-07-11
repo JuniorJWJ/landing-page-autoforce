@@ -91,7 +91,7 @@ export default {
           mileage: "1 KM",
           fuel: "FLEX",
           price: "R$ 190.440,00",
-          image: require("@/assets/images/carro.png"),
+          image: require("@/assets/images/carro.jpg"),
           badges: [
             { text: "TURBO", type: "turbo" },
             { text: "RS", type: "rs" },

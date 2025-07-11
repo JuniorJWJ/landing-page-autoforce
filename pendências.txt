@@ -1,1 +1,2 @@
 Falto fazer um sistema de temas, para usar tamanhos e cores padrões
+quando tá no celular, a logo fica pequena

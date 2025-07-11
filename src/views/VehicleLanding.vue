@@ -47,7 +47,7 @@ export default {
         fuelType: "Flex",
         transmission: "Automático",
         plateEnd: "7",
-        image: require("@/assets/images/carro.png"),
+        image: require("@/assets/images/carro.jpg"),
       },
       vehicleImages: [
         require("@/assets/images/car1.jpg"),
