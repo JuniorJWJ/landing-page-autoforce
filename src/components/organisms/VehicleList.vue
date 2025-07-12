@@ -25,49 +25,64 @@
       </div>
     </div>
 
-    <div class="carousel-container">
-      <button
-        class="carousel-button prev"
-        :disabled="currentIndex === 0"
-        @click="moveCarousel(-1)"
-      >
-        &lt;
-      </button>
+    <!-- Estados de carregamento e erro -->
+    <div v-if="isLoading" class="loading-message">
+      Carregando veículos...
+    </div>
+    
+    <div v-else-if="error" class="error-message">
+      {{ error }}
+    </div>
 
-      <div class="vehicles-slider">
-        <div
-          class="slider-track"
-          :style="{ transform: `translateX(-${currentIndex * cardWidth}px)` }"
+    <template v-else>
+      <div class="carousel-container">
+        <button
+          class="carousel-button prev"
+          :disabled="currentIndex === 0 || filteredVehicles.length === 0"
+          @click="moveCarousel(-1)"
         >
+          &lt;
+        </button>
+
+        <div v-if="filteredVehicles.length > 0" class="vehicles-slider">
           <div
-            v-for="vehicle in filteredVehicles"
-            :key="vehicle.id"
-            class="slider-item"
+            class="slider-track"
+            :style="{ transform: `translateX(-${currentIndex * cardWidth}px)` }"
           >
-            <VehicleCard :vehicle="vehicle" @interest="handleInterest" />
+            <div
+              v-for="vehicle in filteredVehicles"
+              :key="vehicle.id"
+              class="slider-item"
+            >
+              <VehicleCard :vehicle="vehicle" @interest="handleInterest" />
+            </div>
           </div>
         </div>
+        <div v-else class="no-results-message">
+          Nenhum veículo encontrado com os filtros selecionados
+        </div>
+
+        <button
+          class="carousel-button next"
+          :disabled="currentIndex >= filteredVehicles.length - visibleCards || filteredVehicles.length === 0"
+          @click="moveCarousel(1)"
+        >
+          &gt;
+        </button>
       </div>
-
-      <button
-        class="carousel-button next"
-        :disabled="currentIndex >= filteredVehicles.length - visibleCards"
-        @click="moveCarousel(1)"
-      >
-        &gt;
-      </button>
-    </div>
-
-    <div class="pagination-indicators">
-      <span
-        v-for="(_, index) in pageIndicators"
-        :key="index"
-        :class="{ active: currentIndex === index * visibleCards }"
-        @click="jumpToPage(index)"
-      ></span>
-    </div>
+      
+      <div v-if="filteredVehicles.length > 0" class="pagination-progress">
+        <div class="progress-bar">
+          <div 
+            class="progress" 
+            :style="{ width: progressBarWidth }"
+          ></div>
+        </div>
+      </div>
+    </template>
   </div>
 </template>
+
 <script>
 import VehicleCard from "@/components/molecules/VehicleCard.vue";
 
@@ -80,79 +95,13 @@ export default {
       cardWidth: 0,
       filterBrand: "",
       filterYear: "",
-      vehicles: [
-        {
-          id: 1,
-          year: "2023",
-          brand: "Chevrolet",
-          model: "Tracker",
-          subtitle: "1.2 TURBO FLEX RS AUTOMATICO",
-          transmission: "AUTOMÁTICO",
-          mileage: "1 KM",
-          fuel: "FLEX",
-          price: "R$ 190.440,00",
-          image: require("@/assets/images/carro.jpg"),
-          badges: [
-            { text: "TURBO", type: "turbo" },
-            { text: "RS", type: "rs" },
-          ],
-        },
-        {
-          id: 2,
-          year: "2022",
-          brand: "Volkswagen",
-          model: "T-Cross",
-          subtitle: "1.4 TSI TOTAL FLEX AUTOMATIC",
-          transmission: "AUTOMÁTICO",
-          mileage: "15.000 KM",
-          fuel: "FLEX",
-          price: "R$ 120.990,00",
-          image: require("@/assets/images/car1.jpg"),
-          badges: [{ text: "TOP", type: "top" }],
-        },
-        {
-          id: 3,
-          year: "2021",
-          brand: "Fiat",
-          model: "Toro",
-          subtitle: "2.0 DIESEL AUTOMATIC",
-          transmission: "AUTOMÁTICO",
-          mileage: "20.000 KM",
-          fuel: "DIESEL",
-          price: "R$ 155.900,00",
-          image: require("@/assets/images/car3.jpg"),
-          badges: [{ text: "TURBO", type: "turbo" }],
-        },
-        {
-          id: 4,
-          year: "2020",
-          brand: "Honda",
-          model: "HR-V",
-          subtitle: "1.8 FLEX AUTOMATIC",
-          transmission: "AUTOMÁTICO",
-          mileage: "30.000 KM",
-          fuel: "FLEX",
-          price: "R$ 98.990,00",
-          image: require("@/assets/images/car6.jpg"),
-          badges: [],
-        },
-        {
-          id: 5,
-          year: "2019",
-          brand: "Toyota",
-          model: "Corolla",
-          subtitle: "2.0 FLEX AUTOMATIC",
-          transmission: "AUTOMÁTICO",
-          mileage: "40.000 KM",
-          fuel: "FLEX",
-          price: "R$ 110.990,00",
-          image: require("@/assets/images/car5.jpg"),
-          badges: [{ text: "HYBRID", type: "hybrid" }],
-        },
-      ],
+      vehicles: [],
+      isLoading: true,
+      error: null
     };
   },
   mounted() {
+    this.fetchVehicles();
     this.calculateCardWidth();
     window.addEventListener("resize", this.calculateCardWidth);
   },
@@ -179,11 +128,15 @@ export default {
         return matchesBrand && matchesYear;
       });
     },
-    pageIndicators() {
-      return Array(
-        Math.ceil(this.filteredVehicles.length / this.visibleCards),
-      ).fill(0);
-    },
+    progressBarWidth() {
+      if (this.filteredVehicles.length === 0) return '0%';
+      
+      const totalItems = this.filteredVehicles.length;
+      const currentPosition = this.currentIndex + this.visibleCards;
+      const progress = Math.min(100, (currentPosition / totalItems) * 100);
+      
+      return `${progress}%`;
+    }
   },
   watch: {
     filterBrand() {
@@ -197,40 +150,95 @@ export default {
     },
   },
   methods: {
-    calculateCardWidth() {
-      if (this.$el.querySelector(".slider-item")) {
-        const card = this.$el.querySelector(".slider-item");
-        const style = window.getComputedStyle(card);
-        const width = card.offsetWidth;
-        const margin = parseFloat(style.marginRight);
-        this.cardWidth = width + margin;
+    async fetchVehicles() {
+      try {
+        this.isLoading = true;
+        const response = await fetch('http://localhost:3000/api/v1/vehicles');
+        
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        
+        const data = await response.json();
+        this.vehicles = data.map(vehicle => ({
+          ...vehicle,
+          image: this.getImagePath(vehicle.image_url),
+          badges: vehicle.badges || []
+        }));
+      } catch (error) {
+        console.error("Erro ao buscar veículos:", error);
+        this.error = "Erro ao carregar veículos. Tente novamente mais tarde.";
+      } finally {
+        this.isLoading = false;
       }
     },
-    moveCarousel(step) {
-      this.currentIndex = Math.max(
-        0,
-        Math.min(
-          this.currentIndex + step,
-          this.filteredVehicles.length - this.visibleCards,
-        ),
-      );
+    getImagePath(imageUrl) {
+      return imageUrl ? require(`@/assets/images/${imageUrl}`) : '';
     },
-    jumpToPage(pageIndex) {
-      this.currentIndex = pageIndex * this.visibleCards;
+    calculateCardWidth() {
+      setTimeout(() => {
+        if (this.$el?.querySelector(".slider-item")) {
+          const card = this.$el.querySelector(".slider-item");
+          const style = window.getComputedStyle(card);
+          const width = card.offsetWidth;
+          const margin = parseFloat(style.marginRight) || 0;
+          this.cardWidth = width + margin;
+        }
+      }, 100);
+    },
+    moveCarousel(step) {
+      const newIndex = this.currentIndex + step;
+      const maxIndex = Math.max(0, this.filteredVehicles.length - this.visibleCards);
+      
+      if (newIndex >= 0 && newIndex <= maxIndex) {
+        this.currentIndex = newIndex;
+      }
     },
     handleInterest(vehicleId) {
       console.log("Interesse no veículo:", vehicleId);
-    },
-  },
+    }
+  }
 };
 </script>
 
 <style scoped>
+.loading-message,
+.error-message,
+.no-results-message {
+  text-align: center;
+  padding: 2rem;
+  font-size: 1.2rem;
+  margin: 20px 0;
+}
+
+.error-message {
+  color: #ff0000;
+  font-weight: bold;
+}
+
+.no-results-message {
+  font-style: italic;
+  color: #666;
+  flex-grow: 1;
+  text-align: center;
+  padding: 40px 20px;
+}
+
+.carousel-container {
+  display: flex;
+  align-items: center;
+  min-height: 300px;
+}
+
+.vehicles-slider {
+  flex-grow: 1;
+  overflow: hidden;
+}
+
 .vehicle-list {
   max-width: 1200px;
   margin: 0 auto;
   padding: 2rem 1rem;
-  position: relative;
 }
 
 .filters-container {
@@ -285,19 +293,6 @@ export default {
   box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.1);
 }
 
-.carousel-container {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  overflow: hidden;
-  position: relative;
-}
-
-.vehicles-slider {
-  flex: 1;
-  overflow: hidden;
-}
-
 .slider-track {
   display: flex;
   transition: transform 0.5s ease-in-out;
@@ -333,28 +328,24 @@ export default {
   cursor: not-allowed;
 }
 
-.pagination-indicators {
-  display: flex;
-  justify-content: center;
-  gap: 0.5rem;
-  margin-top: 2rem;
+.pagination-progress {
+  width: 100%;
+  max-width: 500px;
+  margin: 2rem auto 0;
 }
 
-.pagination-indicators span {
-  width: 12px;
-  height: 12px;
-  border-radius: 50%;
-  background-color: #ddd;
-  cursor: pointer;
-  transition: background-color 0.3s;
+.progress-bar {
+  height: 6px;
+  background-color: #e0e0e0;
+  border-radius: 3px;
+  overflow: hidden;
 }
 
-.pagination-indicators span.active {
-  background-color: #007bff;
-}
-
-.pagination-indicators span:hover:not(.active) {
-  background-color: #aaa;
+.progress {
+  height: 100%;
+  background-color: #F4B010;
+  border-radius: 3px;
+  transition: width 0.3s ease;
 }
 
 @media (max-width: 992px) {
