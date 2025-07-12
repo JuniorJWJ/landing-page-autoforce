@@ -24,21 +24,21 @@ export default {
 <style scoped>
 .contact-section {
   margin-top: 1.5rem;
-  background: #c5c4c4;
+  background: var(--color-tertiary);
   border-radius: 8px;
   padding: 1.5rem;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  box-shadow: var(--shadow-md);
   text-align: center;
 }
 
 .section-title {
   font-size: 1.5rem;
   margin-bottom: 0.5rem;
-  color: #333;
+  color: var(--color-text);
 }
 
 .section-subtitle {
-  color: #666;
+  color: var(--color-text-secondary);
   margin-bottom: 1.5rem;
 }
 
@@ -49,7 +49,7 @@ export default {
 .separator {
   position: relative;
   margin: 1.5rem 0;
-  color: #666;
+  color: var(--color-text-secondary);
   font-size: 0.9rem;
 }
 
@@ -60,7 +60,7 @@ export default {
   top: 50%;
   width: 40%;
   height: 1px;
-  background-color: #ddd;
+  background-color: var(--color-tertiary-dark);
 }
 
 .separator::before {

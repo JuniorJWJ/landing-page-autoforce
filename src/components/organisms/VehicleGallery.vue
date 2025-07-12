@@ -49,10 +49,10 @@ export default {
 <style scoped>
 .vehicle-gallery {
   margin-top: 1.5rem;
-  background: white;
+  background: var(--color-background);
   border-radius: 8px;
   overflow: hidden;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  box-shadow: var(--shadow-sm);
 }
 
 .main-image-container {
@@ -86,7 +86,7 @@ export default {
 }
 
 .thumbnail-container.active {
-  border-color: #007bff;
+  border-color: var(--color-primary);
 }
 
 .thumbnail {

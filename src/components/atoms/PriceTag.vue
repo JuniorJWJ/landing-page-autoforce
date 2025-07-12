@@ -24,12 +24,13 @@ export default {
 
 .price-label {
   font-size: 0.9rem;
-  color: #666;
+  color: var(--color-text-secondary);
 }
 
 .price-value {
   font-size: 1.75rem;
   font-weight: 700;
-  color: #e30613;
+  color: var(--color-danger);
 }
+
 </style>

@@ -16,21 +16,22 @@ export default {
 
 <style scoped>
 .info-card {
-  background: white;
+  background: var(--color-background);
   padding: 1rem;
   border-radius: 8px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  box-shadow: var(--shadow-sm);
 }
 
 .label {
   font-size: 0.85rem;
-  color: #666;
+  color: var(--color-text-secondary);
   margin-bottom: 0.25rem;
 }
 
 .value {
   font-size: 1.1rem;
   font-weight: 600;
-  color: #333;
+  color: var(--color-text);
 }
+
 </style>

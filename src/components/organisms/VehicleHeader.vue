@@ -41,8 +41,8 @@ export default {
 
 <style scoped>
 .header-container {
-  background-color: #fff;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  background-color: var(--color-background);
+  box-shadow: var(--shadow-md);
   position: sticky;
   top: 0;
   z-index: 100;
@@ -69,7 +69,7 @@ export default {
   overflow: hidden;
   margin-right: 1rem;
   flex-shrink: 0;
-  background-color: #f5f5f5;
+  background-color: var(--color-background-alt);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -88,7 +88,7 @@ export default {
 .store-name {
   margin: 0;
   font-size: 1.25rem;
-  color: #333;
+  color: var(--color-text);
   font-weight: 600;
 }
 
@@ -102,16 +102,17 @@ export default {
 
 .nav-link {
   text-decoration: none;
-  color: #333;
+  color: var(--color-text);
   font-weight: 500;
   font-size: 0.95rem;
   white-space: nowrap;
   position: relative;
   padding: 0.25rem 0;
+  transition: color 0.3s ease;
 }
 
 .nav-link:hover {
-  color: #007bff;
+  color: var(--color-primary);
 }
 
 .nav-link:hover::after {
@@ -121,7 +122,7 @@ export default {
   left: 0;
   right: 0;
   height: 2px;
-  background-color: #007bff;
+  background-color: var(--color-primary);
 }
 
 @media (min-width: 768px) {

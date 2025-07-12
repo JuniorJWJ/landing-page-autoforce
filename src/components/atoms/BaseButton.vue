@@ -19,13 +19,14 @@ export default {
       type: String,
       default: "button",
     },
+    // Agora a cor padrão usa a variável do tema
     color: {
       type: String,
-      default: "#007bff",
+      default: "var(--color-primary)",
     },
     textColor: {
       type: String,
-      default: "#ffffff",
+      default: "var(--color-text-light)",
     },
     fullWidth: Boolean,
     disabled: Boolean,
@@ -36,7 +37,7 @@ export default {
     },
     borderRadius: {
       type: String,
-      default: "4px",
+      default: "6px",
     },
     width: {
       type: String,
@@ -46,12 +47,13 @@ export default {
   computed: {
     computedStyle() {
       return {
-        backgroundColor: this.disabled ? "#ccc" : this.color,
+        backgroundColor: this.disabled ? "var(--color-tertiary)" : this.color,
         color: this.textColor,
         cursor: this.disabled ? "not-allowed" : "pointer",
         opacity: this.disabled ? 0.6 : 1,
         borderRadius: this.borderRadius,
         width: this.fullWidth ? "100%" : this.width,
+        border: 'none',
       };
     },
   },
@@ -60,12 +62,13 @@ export default {
 
 <style scoped>
 .base-button {
-  border: none;
-  font-weight: 500;
+  font-weight: 600;
   transition: all 0.2s ease;
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  border: none;
+  user-select: none;
 }
 
 .size-small {
@@ -84,7 +87,7 @@ export default {
 }
 
 .base-button:hover:not(:disabled) {
-  filter: brightness(90%);
+  filter: brightness(0.9);
 }
 
 .full-width {

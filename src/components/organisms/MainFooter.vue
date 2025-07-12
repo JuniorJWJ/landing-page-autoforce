@@ -72,9 +72,9 @@ export default {
 
 <style scoped>
 .main-footer {
-  background-color: #f8f9fa;
+  background-color: var(--color-background-alt);
   padding: 2rem 1rem;
-  border-top: 1px solid #e9ecef;
+  border-top: 1px solid var(--color-tertiary);
   margin-top: 3rem;
 }
 
@@ -91,6 +91,7 @@ export default {
     grid-template-columns: repeat(3, 1fr);
   }
 }
+
 .brand-badge {
   display: flex;
   justify-content: center;
@@ -104,6 +105,7 @@ export default {
   text-align: center;
   display: inline;
   margin: 0;
+  color: var(--color-text-secondary);
 }
 
 .badge-logo {

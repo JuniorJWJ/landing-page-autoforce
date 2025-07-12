@@ -21,6 +21,6 @@ export default {
   font-size: 1.25rem;
   font-weight: 600;
   margin-bottom: 1rem;
-  color: #333;
+  color: var(--color-text);
 }
 </style>

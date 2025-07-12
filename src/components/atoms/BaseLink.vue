@@ -26,20 +26,20 @@ export default {
 }
 
 .primary {
-  color: #333;
+  color: var(--color-text);
 }
 
 .primary:hover {
-  color: #cf960f;
+  color: var(--color-primary);
   text-decoration: underline;
 }
 
 .secondary {
-  color: #666;
+  color: var(--color-text-secondary);
 }
 
 .secondary:hover {
-  color: #333;
+  color: var(--color-text);
   text-decoration: underline;
 }
 </style>

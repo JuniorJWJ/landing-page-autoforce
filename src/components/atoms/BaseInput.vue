@@ -35,29 +35,31 @@ export default {
   display: block;
   margin-bottom: 0.5rem;
   font-size: 0.9rem;
-  color: #555;
+  color: var(--color-text-secondary); 
 }
 
 .base-input {
   width: 100%;
   padding: 0.75rem;
-  border: 1px solid #ddd;
+  border: 1px solid var(--color-tertiary-dark);
   border-radius: 4px;
   font-size: 1rem;
   transition: border-color 0.3s;
+  color: var(--color-text); 
+  font-family: inherit;
 }
 
 .base-input:focus {
-  border-color: #007bff;
+  border-color: var(--color-primary); 
   outline: none;
 }
 
 .base-input.error {
-  border-color: #e30613;
+  border-color: var(--color-danger);
 }
 
 .error-message {
-  color: #e30613;
+  color: var(--color-danger); 
   font-size: 0.8rem;
   margin-top: 0.25rem;
 }

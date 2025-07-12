@@ -185,28 +185,28 @@ export default {
 }
 
 .color-default {
-  color: var(--text-default, #333);
+  color: var(--color-text);
 }
 .color-primary {
-  color: var(--primary, #007bff);
+  color: var(--color-primary);
 }
 .color-secondary {
-  color: var(--secondary, #6c757d);
+  color: var(--color-secondary);
 }
 .color-success {
-  color: var(--success, #28a745);
+  color: var(--color-success);
 }
 .color-warning {
-  color: var(--warning, #ffc107);
+  color: var(--color-warning);
 }
 .color-danger {
-  color: var(--danger, #dc3545);
+  color: var(--color-danger);
 }
 .color-muted {
-  color: var(--muted, #6c757d);
+  color: var(--color-text-secondary);
 }
 .color-white {
-  color: #fff;
+  color: var(--color-text-light);
 }
 .color-black {
   color: #000;

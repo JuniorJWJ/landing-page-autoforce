@@ -97,7 +97,7 @@ export default {
 
 <style scoped>
 .vehicle-info {
-  background: #c5c4c4;
+  background: var(--color-tertiary);
   border-radius: 8px;
   padding: 1.5rem;
   margin-top: 1.5rem;
@@ -112,11 +112,11 @@ export default {
   left: 50%;
   transform: translateX(-50%);
   padding: 0.5rem 1.5rem;
-  background-color: #e30613;
-  color: white !important;
+  background-color: var(--color-danger);
+  color: var(--color-text-light) !important;
   border-radius: 20px;
   z-index: 10;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  box-shadow: var(--shadow-sm);
 }
 
 .vehicle-content {
@@ -159,7 +159,7 @@ export default {
 
 .section-title {
   font-size: 1.5rem;
-  color: #333;
+  color: var(--color-text);
   margin-bottom: 1.5rem;
   text-align: center;
 }
@@ -175,23 +175,31 @@ export default {
   text-align: center;
   margin-top: auto;
   width: 100%;
+  justify-content: center;
+  gap: 1rem;
+  flex-wrap: wrap;
 }
 
 .price-label {
   font-size: 0.9rem;
-  color: #666;
+  color: var(--color-text-secondary);
 }
 
 .price-value {
   font-size: 1.8rem;
   font-weight: 700;
-  color: #e30613;
+  color: var(--color-danger);
   margin: 0.5rem 0;
 }
 
 .installment {
   font-size: 1rem;
-  color: #666;
+  color: var(--color-text-secondary);
+}
+
+.price-section > .base-button {
+  width: 20%;
+  min-width: 120px;
 }
 
 @media (min-width: 768px) {
@@ -218,6 +226,12 @@ export default {
   }
 }
 
+@media (max-width: 767px) {
+  .price-section > .base-button {
+    width: 100% !important;
+  }
+}
+
 @media (min-width: 992px) {
   .vehicle-image {
     max-height: 300px;
@@ -227,4 +241,5 @@ export default {
     max-height: 300px;
   }
 }
+
 </style>

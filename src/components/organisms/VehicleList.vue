@@ -202,6 +202,8 @@ export default {
 </script>
 
 <style scoped>
+@import "@/assets/css/themes.css";
+
 .loading-message,
 .error-message,
 .no-results-message {
@@ -212,13 +214,13 @@ export default {
 }
 
 .error-message {
-  color: #ff0000;
+  color: var(--color-danger);
   font-weight: bold;
 }
 
 .no-results-message {
   font-style: italic;
-  color: #666;
+  color: var(--color-text-secondary);
   flex-grow: 1;
   text-align: center;
   padding: 40px 20px;
@@ -254,7 +256,7 @@ export default {
 
 .list-title {
   font-size: 1.75rem;
-  color: #333;
+  color: var(--color-text);
   margin: 0;
 }
 
@@ -273,7 +275,7 @@ export default {
   font-size: 0.9rem;
   font-weight: 500;
   margin-bottom: 0.5rem;
-  color: #333;
+  color: var(--color-text);
   text-align: left;
 }
 
@@ -288,9 +290,9 @@ export default {
 }
 
 .filter-select:focus {
-  border-color: #007bff;
+  border-color: var(--color-primary);
   outline: none;
-  box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.1);
+  box-shadow: 0 0 0 2px rgba(244, 176, 16, 0.2); /* color-primary transparente */
 }
 
 .slider-track {
@@ -307,8 +309,8 @@ export default {
   width: 40px;
   height: 40px;
   border-radius: 50%;
-  background-color: #007bff;
-  color: white;
+  background-color: var(--color-primary);
+  color: var(--color-text-light);
   border: none;
   font-size: 1.25rem;
   cursor: pointer;
@@ -320,7 +322,7 @@ export default {
 }
 
 .carousel-button:hover:not(:disabled) {
-  background-color: #0069d9;
+  background-color: var(--color-primary-dark);
 }
 
 .carousel-button:disabled {
@@ -343,7 +345,7 @@ export default {
 
 .progress {
   height: 100%;
-  background-color: #F4B010;
+  background-color: var(--color-primary);
   border-radius: 3px;
   transition: width 0.3s ease;
 }

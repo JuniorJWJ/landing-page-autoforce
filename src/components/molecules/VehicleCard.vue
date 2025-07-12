@@ -77,12 +77,10 @@ export default {
 
 <style scoped>
 .vehicle-card {
-  border: 1px solid #e0e0e0;
+  border: 1px solid var(--color-primary-gray);
   border-radius: 8px;
   overflow: hidden;
-  transition:
-    transform 0.3s,
-    box-shadow 0.3s;
+  transition: transform 0.3s, box-shadow 0.3s;
   margin-bottom: 1.5rem;
   height: 100%;
   display: flex;
@@ -91,7 +89,7 @@ export default {
 
 .vehicle-card:hover {
   transform: translateY(-5px);
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  box-shadow: var(--shadow-lg);
 }
 
 .vehicle-image {
@@ -125,12 +123,12 @@ export default {
 .vehicle-title {
   font-size: 1.25rem;
   margin-bottom: 0.5rem;
-  color: #333;
+  color: var(--color-text);
 }
 
 .vehicle-subtitle {
   font-size: 1rem;
-  color: #666;
+  color: var(--color-text-secondary);
   margin-bottom: 1rem;
 }
 
@@ -142,24 +140,24 @@ export default {
   display: flex;
   justify-content: space-between;
   padding: 0.5rem 0;
-  border-bottom: 1px solid #f0f0f0;
+  border-bottom: 1px solid var(--color-border-light);
 }
 
 .detail-label {
   font-weight: 500;
-  color: #555;
+  color: var(--color-text-medium);
 }
 
 .detail-value {
-  color: #333;
+  color: var(--color-text);
 }
 
 .interest-button {
   display: block;
   width: 100%;
   padding: 0.75rem;
-  background-color: #007bff;
-  color: white;
+  background-color: var(--color-primary);
+  color: var(--color-light);
   border: none;
   border-radius: 4px;
   font-size: 1rem;
@@ -170,7 +168,7 @@ export default {
 }
 
 .interest-button:hover {
-  background-color: #0069d9;
+  background-color: var(--color-primary-dark);
 }
 
 @media (min-width: 768px) {

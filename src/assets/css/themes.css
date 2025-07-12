@@ -1,0 +1,38 @@
+:root {
+    /* Cores base */
+    --color-primary: #F4B010;
+    --color-primary-dark: #d5970e;
+    --color-primary-light: #f8c03d;
+
+    /* Cores Escuras */
+    --color-primary-gray: #595959; /* Tom mais escuro
+  
+    /* Novo tom secundário: Verde-oliva elegante */
+    --color-secondary: #556B2F;
+    --color-secondary-dark: #445623;
+    --color-secondary-light: #6b803a;
+  
+    --color-tertiary: #E7E7E7;
+    --color-tertiary-dark: #d1d1d1;
+    --color-tertiary-light: #f0f0f0;
+  
+    /* Textos */
+    --color-text: #2B2B2B;
+    --color-text-secondary: #595959;
+    --color-text-light: #ffffff;
+  
+    /* Fundos */
+    --color-background: #FFFFFF;
+    --color-background-alt: #F5F5F5;
+  
+    /* Estados */
+    --color-success: #2E7D32;    /* Verde mais elegante */
+    --color-warning: #F9A825;    /* Amarelo escuro */
+    --color-danger: #C62828;     /* Vermelho profundo */
+    --color-info: #5C6BC0;       /* Azul violeta mais suave */
+  
+    /* Sombras */
+    --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.08);
+    --shadow-md: 0 4px 8px rgba(0, 0, 0, 0.12);
+  }
+  
