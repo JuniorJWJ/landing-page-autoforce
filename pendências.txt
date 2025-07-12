@@ -1,2 +1,7 @@
-Falto fazer um sistema de temas, para usar tamanhos e cores padrões
-quando tá no celular, a logo fica pequena
+*Falto fazer um sistema de temas, para usar tamanhos e cores padrões
+
+*No primeiro dia quebrei a cabeça para instalar o Rails no windows, 
+até que no segundo dia eu pesquisei e percebi que era preciso usar 
+WSL do Windows para conseguir executar, então pesquisei um vídeo de como fazer,
+*Depois precisei me encontrar para poder criar o projeto na pasta que eu desejava
+*Pedi ajuda ao GPT para que me ajudasse a estruturar o projeto: ajustando o CORS, criando o controller, ajustando as rotas

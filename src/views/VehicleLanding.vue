@@ -69,6 +69,7 @@ export default {
 </script>
 <style scoped>
 .vehicle-landing {
+  background-color: #fff;
   max-width: 1200px;
   margin: 0 auto;
   padding: 1rem;
