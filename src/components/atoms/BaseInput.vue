@@ -35,7 +35,7 @@ export default {
   display: block;
   margin-bottom: 0.5rem;
   font-size: 0.9rem;
-  color: var(--color-text-secondary); 
+  color: var(--color-text-secondary);
 }
 
 .base-input {
@@ -45,12 +45,12 @@ export default {
   border-radius: 4px;
   font-size: 1rem;
   transition: border-color 0.3s;
-  color: var(--color-text); 
+  color: var(--color-text);
   font-family: inherit;
 }
 
 .base-input:focus {
-  border-color: var(--color-primary); 
+  border-color: var(--color-primary);
   outline: none;
 }
 
@@ -59,7 +59,7 @@ export default {
 }
 
 .error-message {
-  color: var(--color-danger); 
+  color: var(--color-danger);
   font-size: 0.8rem;
   margin-top: 0.25rem;
 }

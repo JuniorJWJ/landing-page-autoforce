@@ -19,7 +19,6 @@ export default {
       type: String,
       default: "button",
     },
-    // Agora a cor padrão usa a variável do tema
     color: {
       type: String,
       default: "var(--color-primary)",
@@ -53,7 +52,7 @@ export default {
         opacity: this.disabled ? 0.6 : 1,
         borderRadius: this.borderRadius,
         width: this.fullWidth ? "100%" : this.width,
-        border: 'none',
+        border: "none",
       };
     },
   },

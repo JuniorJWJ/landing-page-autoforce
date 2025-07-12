@@ -32,5 +32,4 @@ export default {
   font-weight: 700;
   color: var(--color-danger);
 }
-
 </style>

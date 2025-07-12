@@ -80,7 +80,9 @@ export default {
   border: 1px solid var(--color-primary-gray);
   border-radius: 8px;
   overflow: hidden;
-  transition: transform 0.3s, box-shadow 0.3s;
+  transition:
+    transform 0.3s,
+    box-shadow 0.3s;
   margin-bottom: 1.5rem;
   height: 100%;
   display: flex;
@@ -180,6 +182,12 @@ export default {
 @media (min-width: 992px) {
   .vehicle-image img {
     height: 240px;
+  }
+}
+
+@media (max-width: 767.98px) {
+  .vehicle-info {
+    padding: 0.5rem;
   }
 }
 </style>

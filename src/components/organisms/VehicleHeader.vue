@@ -9,9 +9,51 @@
         <div class="store-info">
           <h1 class="store-name">{{ storeName }}</h1>
         </div>
+
+        <!-- Botão hamburguer -->
+        <button
+          class="menu-toggle"
+          :class="{ open: isMenuOpen }"
+          @click="toggleMenu"
+        >
+          <svg
+            viewBox="0 0 100 100"
+            width="30"
+            height="30"
+            class="hamburger-icon"
+          >
+            <rect
+              class="bar"
+              :class="{ open: isMenuOpen }"
+              x="15"
+              y="30"
+              width="70"
+              height="10"
+              rx="5"
+            />
+            <rect
+              class="bar"
+              :class="{ open: isMenuOpen }"
+              x="15"
+              y="45"
+              width="70"
+              height="10"
+              rx="5"
+            />
+            <rect
+              class="bar"
+              :class="{ open: isMenuOpen }"
+              x="15"
+              y="60"
+              width="70"
+              height="10"
+              rx="5"
+            />
+          </svg>
+        </button>
       </div>
 
-      <nav class="nav-menu">
+      <nav class="nav-menu" :class="{ open: isMenuOpen }">
         <a href="#" class="nav-link">Seminovos</a>
         <a href="#" class="nav-link">Ofertas</a>
         <a href="#" class="nav-link">Pós-venda</a>
@@ -25,7 +67,6 @@
 
 <script>
 export default {
-  components: {},
   props: {
     logo: {
       type: String,
@@ -34,6 +75,16 @@ export default {
     storeName: {
       type: String,
       default: "AutoForce Seminovos",
+    },
+  },
+  data() {
+    return {
+      isMenuOpen: false,
+    };
+  },
+  methods: {
+    toggleMenu() {
+      this.isMenuOpen = !this.isMenuOpen;
     },
   },
 };
@@ -59,7 +110,7 @@ export default {
 .brand-container {
   display: flex;
   align-items: center;
-  margin-bottom: 1rem;
+  justify-content: space-between;
 }
 
 .logo-container {
@@ -67,8 +118,6 @@ export default {
   height: 50px;
   border-radius: 50%;
   overflow: hidden;
-  margin-right: 1rem;
-  flex-shrink: 0;
   background-color: var(--color-background-alt);
   display: flex;
   align-items: center;
@@ -83,6 +132,7 @@ export default {
 
 .store-info {
   flex-grow: 1;
+  margin-left: 1rem;
 }
 
 .store-name {
@@ -95,7 +145,6 @@ export default {
 .nav-menu {
   display: flex;
   gap: 1.5rem;
-  overflow-x: auto;
   padding: 0.5rem 0;
   width: 100%;
 }
@@ -125,6 +174,39 @@ export default {
   background-color: var(--color-primary);
 }
 
+.menu-toggle {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  margin-left: auto;
+  display: none;
+}
+
+.hamburger-icon {
+  pointer-events: none;
+}
+
+.bar {
+  fill: var(--color-text);
+  transition:
+    transform 0.3s ease,
+    opacity 0.3s ease;
+  transform-origin: 50% 50%;
+}
+
+.menu-toggle.open .bar:nth-child(1) {
+  transform: rotate(45deg) translate(8px, 8px);
+}
+
+.menu-toggle.open .bar:nth-child(2) {
+  opacity: 0;
+}
+
+.menu-toggle.open .bar:nth-child(3) {
+  transform: rotate(-45deg) translate(8px, -8px);
+}
+
 @media (min-width: 768px) {
   .header {
     flex-direction: row;
@@ -145,29 +227,62 @@ export default {
     justify-content: flex-end;
     padding: 0;
   }
-}
 
-@media (min-width: 992px) {
-  .nav-menu {
-    gap: 2rem;
+  .menu-toggle {
+    display: none;
   }
 }
 
-@media (max-width: 480px) {
-  .brand-container {
-    align-items: center;
+@media (max-width: 768px) {
+  .menu-toggle {
+    display: block;
+  }
+
+  .header {
+    position: relative;
+  }
+
+  .nav-menu {
+    display: none;
+    flex-direction: column;
+    background-color: var(--color-background);
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    gap: 1rem;
+    padding: 1rem;
+    border-top: 1px solid #eee;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    z-index: 10;
+  }
+
+  .nav-menu.open {
+    display: flex;
+  }
+
+  .nav-link {
+    padding: 0.5rem 1rem;
+    font-size: 1rem;
   }
 
   .store-name {
     font-size: 1.1rem;
   }
 
-  .nav-menu {
-    gap: 0.8rem;
+  .brand-container {
+    flex-wrap: nowrap;
+    gap: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .nav-link {
+    font-size: 0.9rem;
   }
 
-  .nav-link {
-    font-size: 0.8rem;
+  .nav-menu {
+    gap: 0.8rem;
   }
 }
 </style>

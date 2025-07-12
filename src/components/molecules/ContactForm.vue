@@ -74,7 +74,6 @@ export default {
   gap: 1.25rem;
 }
 
-/* Label acima do input, alinhado à esquerda */
 .form-row {
   display: flex;
   flex-direction: column;
@@ -128,5 +127,4 @@ button[full-width] {
 button[full-width]:hover {
   background-color: var(--color-primary-dark);
 }
-
 </style>

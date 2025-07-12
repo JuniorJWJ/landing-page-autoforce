@@ -1,15 +1,14 @@
 <template>
   <section class="vehicle-info">
-    <BaseText
-      tag="div"
-      size="lg"
-      weight="bold"
-      color="danger"
-      transform="uppercase"
+    <BaseButton
       class="promo-badge"
+      size="small"
+      color="var(--color-danger)"
+      text-color="var(--color-text-light)"
+      border-radius="20px"
     >
       PROMOÇÃO DO DIA
-    </BaseText>
+    </BaseButton>
 
     <div class="vehicle-content">
       <div class="vehicle-image-column">
@@ -56,13 +55,12 @@
 
 <script>
 import InfoCard from "@/components/molecules/InfoCard.vue";
-import BaseText from "@/components/atoms/BaseText.vue";
 import VehicleBadge from "@/components/atoms/VehicleBadge.vue";
 import BaseButton from "../atoms/BaseButton.vue";
 
 export default {
   name: "VehicleInfoSection",
-  components: { InfoCard, BaseText, VehicleBadge, BaseButton },
+  components: { InfoCard, VehicleBadge, BaseButton },
   props: {
     vehicle: {
       type: Object,
@@ -117,6 +115,11 @@ export default {
   border-radius: 20px;
   z-index: 10;
   box-shadow: var(--shadow-sm);
+
+  max-width: 90%;
+  white-space: nowrap;
+  text-align: center;
+  margin-bottom: 1rem;
 }
 
 .vehicle-content {
@@ -204,7 +207,7 @@ export default {
 
 @media (min-width: 768px) {
   .vehicle-info {
-    padding: 2rem;
+    padding: 3rem;
   }
 
   .vehicle-content {
@@ -241,5 +244,4 @@ export default {
     max-height: 300px;
   }
 }
-
 </style>

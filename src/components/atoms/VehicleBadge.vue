@@ -54,5 +54,4 @@ export default {
   background-color: var(--color-info);
   color: var(--color-text-light);
 }
-
 </style>

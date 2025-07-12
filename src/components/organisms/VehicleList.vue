@@ -25,58 +25,61 @@
       </div>
     </div>
 
-    <!-- Estados de carregamento e erro -->
-    <div v-if="isLoading" class="loading-message">
-      Carregando veículos...
-    </div>
-    
+    <div v-if="isLoading" class="loading-message">Carregando veículos...</div>
+
     <div v-else-if="error" class="error-message">
       {{ error }}
     </div>
 
     <template v-else>
       <div class="carousel-container">
-        <button
-          class="carousel-button prev"
+        <CarouselArrow
+          direction="prev"
           :disabled="currentIndex === 0 || filteredVehicles.length === 0"
           @click="moveCarousel(-1)"
-        >
-          &lt;
-        </button>
+          class="desktop-only"
+        />
 
-        <div v-if="filteredVehicles.length > 0" class="vehicles-slider">
+        <div
+          v-if="filteredVehicles.length > 0"
+          class="vehicles-slider"
+          @touchstart="onTouchStart"
+          @touchmove="onTouchMove"
+          @touchend="onTouchEnd"
+        >
           <div
             class="slider-track"
             :style="{ transform: `translateX(-${currentIndex * cardWidth}px)` }"
           >
             <div
-              v-for="vehicle in filteredVehicles"
+              v-for="(vehicle, index) in filteredVehicles"
               :key="vehicle.id"
               class="slider-item"
+              :class="{ active: index === currentIndex }"
             >
               <VehicleCard :vehicle="vehicle" @interest="handleInterest" />
             </div>
           </div>
         </div>
+
         <div v-else class="no-results-message">
           Nenhum veículo encontrado com os filtros selecionados
         </div>
 
-        <button
-          class="carousel-button next"
-          :disabled="currentIndex >= filteredVehicles.length - visibleCards || filteredVehicles.length === 0"
+        <CarouselArrow
+          direction="next"
+          :disabled="
+            currentIndex >= filteredVehicles.length - visibleCards ||
+            filteredVehicles.length === 0
+          "
           @click="moveCarousel(1)"
-        >
-          &gt;
-        </button>
+          class="desktop-only"
+        />
       </div>
-      
+
       <div v-if="filteredVehicles.length > 0" class="pagination-progress">
         <div class="progress-bar">
-          <div 
-            class="progress" 
-            :style="{ width: progressBarWidth }"
-          ></div>
+          <div class="progress" :style="{ width: progressBarWidth }"></div>
         </div>
       </div>
     </template>
@@ -85,9 +88,10 @@
 
 <script>
 import VehicleCard from "@/components/molecules/VehicleCard.vue";
+import CarouselArrow from "@/components/atoms/CarouselArrow.vue";
 
 export default {
-  components: { VehicleCard },
+  components: { VehicleCard, CarouselArrow },
   data() {
     return {
       currentIndex: 0,
@@ -97,7 +101,9 @@ export default {
       filterYear: "",
       vehicles: [],
       isLoading: true,
-      error: null
+      error: null,
+      touchStartX: 0,
+      touchEndX: 0,
     };
   },
   mounted() {
@@ -129,14 +135,12 @@ export default {
       });
     },
     progressBarWidth() {
-      if (this.filteredVehicles.length === 0) return '0%';
-      
+      if (this.filteredVehicles.length === 0) return "0%";
       const totalItems = this.filteredVehicles.length;
       const currentPosition = this.currentIndex + this.visibleCards;
       const progress = Math.min(100, (currentPosition / totalItems) * 100);
-      
       return `${progress}%`;
-    }
+    },
   },
   watch: {
     filterBrand() {
@@ -153,17 +157,14 @@ export default {
     async fetchVehicles() {
       try {
         this.isLoading = true;
-        const response = await fetch('http://localhost:3000/api/v1/vehicles');
-        
-        if (!response.ok) {
+        const response = await fetch("http://localhost:3000/api/v1/vehicles");
+        if (!response.ok)
           throw new Error(`HTTP error! status: ${response.status}`);
-        }
-        
         const data = await response.json();
-        this.vehicles = data.map(vehicle => ({
+        this.vehicles = data.map((vehicle) => ({
           ...vehicle,
           image: this.getImagePath(vehicle.image_url),
-          badges: vehicle.badges || []
+          badges: vehicle.badges || [],
         }));
       } catch (error) {
         console.error("Erro ao buscar veículos:", error);
@@ -173,12 +174,12 @@ export default {
       }
     },
     getImagePath(imageUrl) {
-      return imageUrl ? require(`@/assets/images/${imageUrl}`) : '';
+      return imageUrl ? require(`@/assets/images/${imageUrl}`) : "";
     },
     calculateCardWidth() {
       setTimeout(() => {
-        if (this.$el?.querySelector(".slider-item")) {
-          const card = this.$el.querySelector(".slider-item");
+        const card = this.$el?.querySelector(".slider-item");
+        if (card) {
           const style = window.getComputedStyle(card);
           const width = card.offsetWidth;
           const margin = parseFloat(style.marginRight) || 0;
@@ -188,16 +189,34 @@ export default {
     },
     moveCarousel(step) {
       const newIndex = this.currentIndex + step;
-      const maxIndex = Math.max(0, this.filteredVehicles.length - this.visibleCards);
-      
+      const maxIndex = Math.max(
+        0,
+        this.filteredVehicles.length - this.visibleCards,
+      );
       if (newIndex >= 0 && newIndex <= maxIndex) {
         this.currentIndex = newIndex;
       }
     },
     handleInterest(vehicleId) {
       console.log("Interesse no veículo:", vehicleId);
-    }
-  }
+    },
+    onTouchStart(event) {
+      this.touchStartX = event.touches[0].clientX;
+    },
+    onTouchMove(event) {
+      this.touchEndX = event.touches[0].clientX;
+    },
+    onTouchEnd() {
+      const delta = this.touchStartX - this.touchEndX;
+      if (Math.abs(delta) > 50) {
+        if (delta > 0) {
+          this.moveCarousel(1);
+        } else {
+          this.moveCarousel(-1);
+        }
+      }
+    },
+  },
 };
 </script>
 
@@ -226,17 +245,6 @@ export default {
   padding: 40px 20px;
 }
 
-.carousel-container {
-  display: flex;
-  align-items: center;
-  min-height: 300px;
-}
-
-.vehicles-slider {
-  flex-grow: 1;
-  overflow: hidden;
-}
-
 .vehicle-list {
   max-width: 1200px;
   margin: 0 auto;
@@ -249,15 +257,6 @@ export default {
   align-items: center;
   flex-wrap: wrap;
   margin-bottom: 2rem;
-  max-width: 1200px;
-  margin-left: auto;
-  margin-right: auto;
-}
-
-.list-title {
-  font-size: 1.75rem;
-  color: var(--color-text);
-  margin: 0;
 }
 
 .filters-group {
@@ -276,7 +275,6 @@ export default {
   font-weight: 500;
   margin-bottom: 0.5rem;
   color: var(--color-text);
-  text-align: left;
 }
 
 .filter-select {
@@ -292,7 +290,18 @@ export default {
 .filter-select:focus {
   border-color: var(--color-primary);
   outline: none;
-  box-shadow: 0 0 0 2px rgba(244, 176, 16, 0.2); /* color-primary transparente */
+  box-shadow: 0 0 0 2px rgba(244, 176, 16, 0.2);
+}
+
+.carousel-container {
+  display: flex;
+  align-items: center;
+  min-height: 300px;
+}
+
+.vehicles-slider {
+  flex-grow: 1;
+  overflow: hidden;
 }
 
 .slider-track {
@@ -350,50 +359,62 @@ export default {
   transition: width 0.3s ease;
 }
 
-@media (max-width: 992px) {
-  .slider-item {
-    flex: 0 0 calc(100% / 2 - 1rem);
-  }
-
-  .filters-container {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 1rem;
-  }
-
-  .filters-group {
-    width: 100%;
-    justify-content: space-between;
-  }
+.desktop-only {
+  display: block;
 }
 
 @media (max-width: 768px) {
-  .slider-item {
-    flex: 0 0 calc(100% - 1rem);
+  .desktop-only {
+    display: none !important;
   }
 
   .carousel-container {
-    gap: 0.5rem;
+    overflow: hidden;
+    position: relative;
+    padding: 0;
+    margin: 0 -1rem;
   }
 
-  .carousel-button {
-    width: 35px;
-    height: 35px;
+  .vehicles-slider {
+    width: 100%;
+    overflow: visible;
   }
 
+  .slider-track {
+    display: flex;
+    padding: 0 10%;
+    transition: transform 0.3s ease-out;
+  }
+
+  .slider-item {
+    flex: 0 0 80%;
+    margin-right: 1rem;
+    transform-origin: center center;
+    transition: all 0.3s ease;
+    opacity: 0.5;
+  }
+
+  .slider-item.active {
+    opacity: 1;
+  }
+
+  .vehicle-list {
+    overflow-x: hidden;
+    width: 100%;
+  }
+
+  .pagination-progress {
+    padding: 0 1rem;
+    margin-top: 1.5rem;
+  }
   .filters-group {
     flex-direction: column;
     gap: 1rem;
+    width: 100%;
   }
 
   .filter-group {
     width: 100%;
-  }
-}
-
-@media (max-width: 480px) {
-  .filter-group {
-    min-width: 100%;
   }
 }
 </style>
