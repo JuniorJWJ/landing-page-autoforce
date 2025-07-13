@@ -10,7 +10,6 @@
           <h1 class="store-name">{{ storeName }}</h1>
         </div>
 
-        <!-- Botão hamburguer -->
         <button
           class="menu-toggle"
           :class="{ open: isMenuOpen }"

@@ -19,7 +19,7 @@
           Endereço Matriz Av. Amintas Barros, 3700 - Torre Business - Sala 2506
           - Lagoa Nova - Natal-RN
         </BaseText>
-        <BaseButton color="#F4B010" size="small" @click="$emit('contact')">
+        <BaseButton color="#F4B010" size="small" @click="openMap">
           Abrir mapa
         </BaseButton>
         <BrandBadge />

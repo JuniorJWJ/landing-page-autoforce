@@ -1,5 +1,5 @@
 <template>
-  <div class="vehicle-landing">
+  <div class="vehicle-landing" v-if="vehicleData">
     <VehicleHeader
       :logo="require('@/assets/images/logo.png')"
       storeName="AutoForce Seminovos"
@@ -7,17 +7,20 @@
 
     <VehicleGallery :images="vehicleImages" />
     <VehicleList />
-    <VehicleInfoSection :vehicle="vehicleData" />
+    <VehiclePromotion :vehicle="vehicleData" />
     <ContactSection />
     <MainFooter />
     <WhatsAppButton :phone="'75999943121'" :message="'Olá, isso é um teste'" />
+  </div>
+  <div v-else>
+    <p>Loading...</p>
   </div>
 </template>
 
 <script>
 import VehicleHeader from "@/components/organisms/VehicleHeader.vue";
 import VehicleGallery from "@/components/organisms/VehicleGallery.vue";
-import VehicleInfoSection from "@/components/organisms/VehicleInfoSection.vue";
+import VehiclePromotion from "@/components/organisms/VehiclePromotion.vue";
 import ContactSection from "@/components/organisms/ContactSection.vue";
 import VehicleList from "@/components/organisms/VehicleList.vue";
 import MainFooter from "@/components/organisms/MainFooter.vue";
@@ -28,7 +31,7 @@ export default {
   components: {
     VehicleHeader,
     VehicleGallery,
-    VehicleInfoSection,
+    VehiclePromotion,
     ContactSection,
     VehicleList,
     MainFooter,
@@ -36,19 +39,7 @@ export default {
   },
   data() {
     return {
-      vehicleData: {
-        brand: "Chevrolet",
-        model: "Onix Premier",
-        year: "2022/2023",
-        color: "Prata",
-        mileage: "25.000 km",
-        price: "R$ 65.990",
-        installment: "48x de R$ 1.375",
-        fuelType: "Flex",
-        transmission: "Automático",
-        plateEnd: "7",
-        image: require("@/assets/images/carro.jpg"),
-      },
+      vehicleData: null,
       vehicleImages: [
         require("@/assets/images/car1.jpg"),
         require("@/assets/images/car2.jpg"),
@@ -58,15 +49,43 @@ export default {
         require("@/assets/images/car6.jpg"),
         require("@/assets/images/car7.jpg"),
         require("@/assets/images/car8.jpg"),
-        require("@/assets/images/car7.jpg"),
-        require("@/assets/images/car8.jpg"),
-        require("@/assets/images/car7.jpg"),
-        require("@/assets/images/car8.jpg"),
+        require("@/assets/images/car9.jpg"),
+        require("@/assets/images/car10.jpg"),
+        require("@/assets/images/car11.jpg"),
       ],
     };
   },
+  mounted() {
+    this.fetchVehicleData();
+  },
+  methods: {
+    async fetchVehicleData() {
+      try {
+        const response = await fetch(
+          "http://localhost:3000/api/v1/vehicle/promotion",
+        );
+
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+
+        const data = await response.json();
+
+        this.vehicleData = data;
+
+        if (this.vehicleData.image_url) {
+          this.vehicleData.image = require(
+            `@/assets/images/${this.vehicleData.image_url}`,
+          );
+        }
+      } catch (error) {
+        console.error("Error fetching vehicle data:", error);
+      }
+    },
+  },
 };
 </script>
+
 <style scoped>
 .vehicle-landing {
   background-color: #fff;

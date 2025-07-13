@@ -31,25 +31,21 @@ export default {
   margin-right: 0.5rem;
 }
 
-/* Default: cor neutra */
 .default {
   background-color: var(--color-tertiary);
   color: var(--color-text);
 }
 
-/* Turbo: vermelho profundo (danger) */
 .turbo {
   background-color: var(--color-danger);
   color: var(--color-text-light);
 }
 
-/* RS: amarelo escuro (warning) */
 .rs {
   background-color: var(--color-warning);
   color: var(--color-text);
 }
 
-/* Top: azul violeta suave (info) */
 .top {
   background-color: var(--color-info);
   color: var(--color-text-light);

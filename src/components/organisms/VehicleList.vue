@@ -49,7 +49,11 @@
         >
           <div
             class="slider-track"
-            :style="{ transform: `translateX(-${currentIndex * cardWidth}px)` }"
+            :style="{
+              transform: isMobile
+                ? mobileTransform
+                : `translateX(-${currentIndex * cardWidth}px)`,
+            }"
           >
             <div
               v-for="(vehicle, index) in filteredVehicles"
@@ -104,15 +108,19 @@ export default {
       error: null,
       touchStartX: 0,
       touchEndX: 0,
+      isMobile: false,
     };
   },
   mounted() {
     this.fetchVehicles();
     this.calculateCardWidth();
+    this.checkMobile();
     window.addEventListener("resize", this.calculateCardWidth);
+    window.addEventListener("resize", this.checkMobile);
   },
   beforeUnmount() {
     window.removeEventListener("resize", this.calculateCardWidth);
+    window.removeEventListener("resize", this.checkMobile);
   },
   computed: {
     brands() {
@@ -140,6 +148,26 @@ export default {
       const currentPosition = this.currentIndex + this.visibleCards;
       const progress = Math.min(100, (currentPosition / totalItems) * 100);
       return `${progress}%`;
+    },
+    mobileTransform() {
+      if (this.filteredVehicles.length === 0) return "translateX(0px)";
+
+      const cardWidth = 280;
+      const cardMargin = 16;
+      const totalCardWidth = cardWidth + cardMargin;
+
+      // Primeiro item: mostra só um pouquinho do próximo
+      if (this.currentIndex === 0) {
+        return "translateX(20px)";
+      }
+
+      // Último item: mostra preview do anterior
+      if (this.currentIndex === this.filteredVehicles.length - 1) {
+        return `translateX(-${this.currentIndex * totalCardWidth - 40}px)`;
+      }
+
+      // Itens do meio: mostra preview do anterior e próximo
+      return `translateX(-${this.currentIndex * totalCardWidth - 40}px)`;
     },
   },
   watch: {
@@ -189,10 +217,10 @@ export default {
     },
     moveCarousel(step) {
       const newIndex = this.currentIndex + step;
-      const maxIndex = Math.max(
-        0,
-        this.filteredVehicles.length - this.visibleCards,
-      );
+      const maxIndex = this.isMobile
+        ? this.filteredVehicles.length - 1
+        : Math.max(0, this.filteredVehicles.length - this.visibleCards);
+
       if (newIndex >= 0 && newIndex <= maxIndex) {
         this.currentIndex = newIndex;
       }
@@ -215,6 +243,9 @@ export default {
           this.moveCarousel(-1);
         }
       }
+    },
+    checkMobile() {
+      this.isMobile = window.innerWidth <= 768;
     },
   },
 };
@@ -382,20 +413,28 @@ export default {
 
   .slider-track {
     display: flex;
-    padding: 0 10%;
     transition: transform 0.3s ease-out;
+    padding-left: 15px;
+    padding-right: 100px;
   }
 
   .slider-item {
-    flex: 0 0 80%;
-    margin-right: 1rem;
+    flex: 0 0 280px;
+    margin-right: 16px;
     transform-origin: center center;
     transition: all 0.3s ease;
     opacity: 0.5;
+    transform: scale(0.8);
   }
 
   .slider-item.active {
     opacity: 1;
+    transform: scale(1);
+  }
+
+  /* Melhora a visualização das prévias */
+  .slider-item:not(.active) {
+    pointer-events: none;
   }
 
   .vehicle-list {
@@ -407,6 +446,7 @@ export default {
     padding: 0 1rem;
     margin-top: 1.5rem;
   }
+
   .filters-group {
     flex-direction: column;
     gap: 1rem;
