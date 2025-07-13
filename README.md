@@ -87,7 +87,7 @@ O projeto incorpora um sistema de temas de cores, embora os detalhes específico
 - **Atomic Design**: Metodologia para organização de componentes.
 - **Prettier**: Ferramenta para formatação de código.
 
-##Contribuições Finais
+## Contribuições Finais
 
 Desenvolver esta landing page foi uma experiência bastante desafiadora e enriquecedora, pois me permitiu explorar e aplicar diversos conhecimentos em Vue.js.
 A maior dificuldade que enfrentei foi na parte da listagem de veículos no mobile. O principal problema estava no comportamento da navegação lateral, onde, ao deslizar, partes do carro anterior ou do próximo veículo apareciam de forma incorreta.
