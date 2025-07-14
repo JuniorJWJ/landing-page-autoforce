@@ -1,15 +1,12 @@
 <template>
   <div id="app">
-    <VehicleLanding />
+    <router-view></router-view>
   </div>
 </template>
 
 <script>
-import VehicleLanding from "@/views/VehicleLanding.vue";
-
 export default {
   name: "App",
-  components: { VehicleLanding },
 };
 </script>
 
@@ -23,7 +20,7 @@ export default {
 
 body {
   background-color: #333;
-  color: #333;
+  color: #fff;
   line-height: 1.6;
 }
 </style>

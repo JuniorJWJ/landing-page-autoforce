@@ -7,24 +7,13 @@
       text-color="var(--color-text-light)"
       border-radius="20px"
     >
-      PROMOÇÃO DO DIA
+      {{ title }}
     </BaseButton>
 
     <div class="vehicle-content">
       <div class="vehicle-image-column">
         <div class="vehicle-image">
-          <img
-            :src="vehicle.image"
-            :alt="`${vehicle.brand} ${vehicle.model}`"
-          />
-        </div>
-        <div class="vehicle-badges">
-          <VehicleBadge
-            v-for="(badge, index) in vehicle.badges"
-            :key="index"
-            :text="badge.text"
-            :type="badge.type"
-          />
+          <VehicleGallery :images="vehicleImages" />
         </div>
       </div>
 
@@ -46,7 +35,12 @@
       <div class="price-label">Preço</div>
       <div class="price-value">{{ vehicle.price }}</div>
       <div class="installment">ou {{ vehicle.installment }}</div>
-      <BaseButton color="red" size="small" width="20%">
+      <BaseButton
+        color="red"
+        size="small"
+        width="20%"
+        @click="redirectToWhatsApp"
+      >
         COMPRAR AGORA
       </BaseButton>
     </div>
@@ -55,12 +49,12 @@
 
 <script>
 import InfoCard from "@/components/molecules/InfoCard.vue";
-import VehicleBadge from "@/components/atoms/VehicleBadge.vue";
 import BaseButton from "../atoms/BaseButton.vue";
+import VehicleGallery from "./VehicleGallery.vue";
 
 export default {
   name: "VehicleInfoSection",
-  components: { InfoCard, VehicleBadge, BaseButton },
+  components: { InfoCard, BaseButton, VehicleGallery },
   props: {
     vehicle: {
       type: Object,
@@ -73,9 +67,14 @@ export default {
         mileage: "",
         price: "",
         installment: "",
-        image: "",
+        images_url: [],
         badges: [],
       }),
+    },
+    vehicleImages: Array,
+    title: {
+      type: String,
+      required: true,
     },
   },
   computed: {
@@ -85,9 +84,23 @@ export default {
         { label: "Cor", value: this.vehicle.color },
         { label: "Quilometragem", value: this.vehicle.mileage },
         { label: "Combustível", value: this.vehicle.fuelType || "Flex" },
-        { label: "Câmbio", value: this.vehicle.transmission || "Automático" },
-        { label: "Final da Placa", value: this.vehicle.plateEnd || "7" },
+        { label: "Câmbio", value: this.vehicle.transmission || "Manual" },
+        { label: "Final da Placa", value: this.vehicle.plate_end || "" },
       ];
+    },
+  },
+  methods: {
+    redirectToWhatsApp() {
+      const { brand, model, price, year } = this.vehicle;
+      const phoneNumber = "5575999943121";
+      const message = `Olá, Fiquei interessado no ${brand} ${model} ${year} por ${price}.`;
+
+      const encodedMessage = encodeURIComponent(message);
+
+      window.open(
+        `https://wa.me/${phoneNumber}?text=${encodedMessage}`,
+        "_blank",
+      );
     },
   },
 };
@@ -136,7 +149,6 @@ export default {
 .vehicle-image {
   border-radius: 8px;
   overflow: hidden;
-  display: flex;
   justify-content: center;
   align-items: center;
 }
@@ -236,10 +248,6 @@ export default {
 }
 
 @media (min-width: 992px) {
-  .vehicle-image {
-    max-height: 300px;
-  }
-
   .vehicle-image img {
     max-height: 300px;
   }

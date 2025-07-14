@@ -2,7 +2,7 @@
   <footer class="main-footer">
     <div class="footer-content">
       <FooterColumn title="Tem alguma dúvida?">
-        <BaseButton color="#F4B010" size="small" @click="$emit('contact')">
+        <BaseButton color="#F4B010" size="small" @click="redirectToWhatsApp">
           Fale conosco
         </BaseButton>
       </FooterColumn>
@@ -66,6 +66,24 @@ export default {
         { text: "Política de privacidade", to: "/privacidade" },
       ],
     };
+  },
+  methods: {
+    redirectToWhatsApp() {
+      const phoneNumber = "5575999943121";
+      const message =
+        "Olá, gostaria de saber mais sobre os veículos em promoção.";
+
+      const encodedMessage = encodeURIComponent(message);
+
+      window.open(
+        `https://wa.me/${phoneNumber}?text=${encodedMessage}`,
+        "_blank",
+      );
+    },
+    openMap() {
+      const mapLink = "https://maps.app.goo.gl/f2PNmCtBkXa2Y5zW6";
+      window.open(mapLink, "_blank");
+    },
   },
 };
 </script>

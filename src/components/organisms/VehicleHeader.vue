@@ -2,9 +2,11 @@
   <div class="header-container">
     <header class="header">
       <div class="brand-container">
-        <div class="logo-container">
-          <img :src="logo" alt="Logo da loja" class="logo" />
-        </div>
+        <router-link to="/">
+          <div class="logo-container">
+            <img :src="logo" alt="Logo da loja" class="logo" />
+          </div>
+        </router-link>
 
         <div class="store-info">
           <h1 class="store-name">{{ storeName }}</h1>

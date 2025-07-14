@@ -5,14 +5,10 @@
       storeName="AutoForce Seminovos"
     />
 
-    <!-- Exibe as imagens do veículo -->
-    <VehicleGallery :images="staticVehicleImages" />
-
-    <VehicleList />
     <VehicleInfo
       :vehicle="vehicleData"
       :vehicleImages="vehicleImages"
-      :title="'PROMOÇÃO DO DIA'"
+      :title="vehicleData.brand + ' ' + vehicleData.model"
     />
     <ContactSection />
     <MainFooter />
@@ -28,52 +24,51 @@
 
 <script>
 import VehicleHeader from "@/components/organisms/VehicleHeader.vue";
-import VehicleGallery from "@/components/organisms/VehicleGallery.vue";
 import VehicleInfo from "@/components/organisms/VehicleInfo.vue";
 import ContactSection from "@/components/organisms/ContactSection.vue";
-import VehicleList from "@/components/organisms/VehicleList.vue";
 import MainFooter from "@/components/organisms/MainFooter.vue";
 import WhatsAppButton from "@/components/molecules/WhatsAppButton.vue";
 
 export default {
-  name: "VehicleLanding",
+  name: "VehicleDetail",
   components: {
     VehicleHeader,
-    VehicleGallery,
     VehicleInfo,
     ContactSection,
-    VehicleList,
     MainFooter,
     WhatsAppButton,
   },
   data() {
     return {
       vehicleData: null,
-      vehicleImages: [],
-      title: "",
-      staticVehicleImages: [
+      vehicleImages: [
         require("@/assets/images/car1.jpg"),
         require("@/assets/images/car2.jpg"),
         require("@/assets/images/car3.jpg"),
         require("@/assets/images/car4.jpg"),
         require("@/assets/images/car5.jpg"),
-        require("@/assets/images/car6.jpg"),
-        require("@/assets/images/car7.jpg"),
-        require("@/assets/images/car8.jpg"),
-        require("@/assets/images/car9.jpg"),
-        require("@/assets/images/car10.jpg"),
-        require("@/assets/images/car11.jpg"),
       ],
     };
   },
+  props: {
+    id: {
+      type: String,
+      required: true,
+    },
+  },
   mounted() {
     this.fetchVehicleData();
+  },
+  watch: {
+    id(newId) {
+      this.fetchVehicleData(newId);
+    },
   },
   methods: {
     async fetchVehicleData() {
       try {
         const response = await fetch(
-          "http://localhost:3000/api/v1/vehicle/promotion",
+          `http://localhost:3000/api/v1/vehicles/${this.id}`,
         );
 
         if (!response.ok) {
@@ -81,13 +76,13 @@ export default {
         }
 
         const data = await response.json();
-
         this.vehicleData = data;
-        console.log("Vehicle Data:", this.vehicleData);
 
-        this.vehicleImages = this.vehicleData.images_url.map((imageUrl) =>
-          require(`@/assets/images/${imageUrl}`),
-        );
+        if (this.vehicleData.image_url) {
+          this.vehicleData.image = require(
+            `@/assets/images/${this.vehicleData.image_url}`,
+          );
+        }
       } catch (error) {
         console.error("Error fetching vehicle data:", error);
       }

@@ -109,6 +109,7 @@ export default {
       touchStartX: 0,
       touchEndX: 0,
       isMobile: false,
+      isButtonClicked: false,
     };
   },
   mounted() {
@@ -156,17 +157,14 @@ export default {
       const cardMargin = 16;
       const totalCardWidth = cardWidth + cardMargin;
 
-      // Primeiro item: mostra só um pouquinho do próximo
       if (this.currentIndex === 0) {
         return "translateX(20px)";
       }
 
-      // Último item: mostra preview do anterior
       if (this.currentIndex === this.filteredVehicles.length - 1) {
         return `translateX(-${this.currentIndex * totalCardWidth - 40}px)`;
       }
 
-      // Itens do meio: mostra preview do anterior e próximo
       return `translateX(-${this.currentIndex * totalCardWidth - 40}px)`;
     },
   },
@@ -189,11 +187,16 @@ export default {
         if (!response.ok)
           throw new Error(`HTTP error! status: ${response.status}`);
         const data = await response.json();
+
         this.vehicles = data.map((vehicle) => ({
           ...vehicle,
-          image: this.getImagePath(vehicle.image_url),
+          image:
+            vehicle.images_url && vehicle.images_url.length > 0
+              ? this.getImagePath(vehicle.images_url[0])
+              : "",
           badges: vehicle.badges || [],
         }));
+        console.log(this.vehicles);
       } catch (error) {
         console.error("Erro ao buscar veículos:", error);
         this.error = "Erro ao carregar veículos. Tente novamente mais tarde.";
@@ -201,6 +204,7 @@ export default {
         this.isLoading = false;
       }
     },
+
     getImagePath(imageUrl) {
       return imageUrl ? require(`@/assets/images/${imageUrl}`) : "";
     },
@@ -226,15 +230,18 @@ export default {
       }
     },
     handleInterest(vehicleId) {
-      console.log("Interesse no veículo:", vehicleId);
+      this.$router.push(`/VehicleDetail/${vehicleId}`);
     },
     onTouchStart(event) {
+      if (this.isButtonClicked) return;
       this.touchStartX = event.touches[0].clientX;
     },
     onTouchMove(event) {
+      if (this.isButtonClicked) return;
       this.touchEndX = event.touches[0].clientX;
     },
     onTouchEnd() {
+      if (this.isButtonClicked) return;
       const delta = this.touchStartX - this.touchEndX;
       if (Math.abs(delta) > 50) {
         if (delta > 0) {
@@ -425,6 +432,7 @@ export default {
     transition: all 0.3s ease;
     opacity: 0.5;
     transform: scale(0.8);
+    position: relative;
   }
 
   .slider-item.active {
@@ -432,7 +440,6 @@ export default {
     transform: scale(1);
   }
 
-  /* Melhora a visualização das prévias */
   .slider-item:not(.active) {
     pointer-events: none;
   }

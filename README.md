@@ -31,7 +31,7 @@ O componente `VehicleLanding.vue` é o componente principal da landing page e in
 - **`VehicleHeader`**: O cabeçalho da página, exibindo o logo e o nome da loja.
 - **`VehicleGallery`**: Uma galeria de imagens de veículos.
 - **`VehicleList`**: Uma seção para listar veículos.
-- **`VehiclePromotion`**: Exibe os detalhes do veículo em promoção.
+- **`VehicleInfo`**: Exibe os detalhes do veículo em promoção.
 - **`ContactSection`**: Uma seção dedicada a informações de contato.
 - **`MainFooter`**: O rodapé da página.
 - **`WhatsAppButton`**: Um botão flutuante para contato via WhatsApp.

@@ -147,7 +147,7 @@ export default {
 
 .detail-label {
   font-weight: 500;
-  color: var(--color-text-medium);
+  color: var(--color-text);
 }
 
 .detail-value {
