@@ -20,18 +20,18 @@ Os componentes são categorizados em:
 
 - **`src/assets/`**: Contém arquivos estáticos como imagens (`images/`) e estilos globais.
 - **`src/components/`**: Onde os componentes Vue são organizados de acordo com o Atomic Design.
-- **`src/views/`**: Contém os componentes de página, como o `VehicleLanding.vue`, que orquestram os organismos para formar as telas da aplicação.
+- **`src/views/`**: Contém os componentes de página que orquestram os organismos para formar as telas da aplicação.
 - **`src/App.vue`**: O componente raiz da aplicação.
 - **`src/main.js`**: O ponto de entrada da aplicação Vue, onde a instância Vue é criada e os plugins são registrados.
 
 ## Componentes Principais
 
-O componente `VehicleLanding.vue` é o componente principal da landing page e integra os seguintes organismos e moléculas:
-
+- **`VehicleLanding`**: É a página principal, onde chama todos os organismos para montar a tela
+- **`VehicleDetail`**: É a página que mostra o veículo selecionado
 - **`VehicleHeader`**: O cabeçalho da página, exibindo o logo e o nome da loja.
 - **`VehicleGallery`**: Uma galeria de imagens de veículos.
 - **`VehicleList`**: Uma seção para listar veículos.
-- **`VehicleInfo`**: Exibe os detalhes do veículo em promoção.
+- **`VehicleInfo`**: Exibe os detalhes do veículo em promoção ou selecionado.
 - **`ContactSection`**: Uma seção dedicada a informações de contato.
 - **`MainFooter`**: O rodapé da página.
 - **`WhatsAppButton`**: Um botão flutuante para contato via WhatsApp.
@@ -78,7 +78,7 @@ Certifique-se de ter as seguintes ferramentas instaladas em seu sistema:
 
 ## Sistema de Temas de Cores
 
-O projeto incorpora um sistema de temas de cores, embora os detalhes específicos da implementação (arquivos CSS/SCSS, variáveis) não estejam explícitos no código do `VehicleLanding.vue`. Geralmente, isso é feito através de variáveis CSS ou pré-processadores como Sass/Less, permitindo uma fácil personalização da paleta de cores da aplicação.
+O projeto incorpora um sistema de temas de cores, embora os detalhes específicos da implementação (arquivos CSS/SCSS, variáveis) não estejam explícitos. Geralmente, isso é feito através de variáveis CSS ou pré-processadores como Sass/Less, permitindo uma fácil personalização da paleta de cores da aplicação.
 
 ## Ferramentas e Tecnologias
 
@@ -95,3 +95,5 @@ A maior dificuldade que enfrentei foi na parte da listagem de veículos no mobil
 Durante o desenvolvimento, utilizei IAs para otimizar a estrutura do projeto, desde a escolha das melhores práticas até a nomeação dos arquivos, o que facilitou a compreensão e organização do código. Essa abordagem me ajudou a manter o projeto limpo e de fácil manutenção.
 
 Consegui hospedar o frontend na Vercel, mas a API ainda está hospedada localmente. Isso significa que, para o front-end funcionar corretamente, o backend precisa estar rodando localmente. Estou à disposição para esclarecer qualquer dúvida sobre o processo ou fornecer mais detalhes sobre como configurar e executar o projeto localmente.
+
+Os itens da Navbar não funcionam, pois fiz apenas 2 telas.
