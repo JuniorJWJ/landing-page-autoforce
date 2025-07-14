@@ -97,3 +97,6 @@ Durante o desenvolvimento, utilizei IAs para otimizar a estrutura do projeto, de
 Consegui hospedar o frontend na Vercel, mas a API ainda está hospedada localmente. Isso significa que, para o front-end funcionar corretamente, o backend precisa estar rodando localmente. Estou à disposição para esclarecer qualquer dúvida sobre o processo ou fornecer mais detalhes sobre como configurar e executar o projeto localmente.
 
 Os itens da Navbar não funcionam, pois fiz apenas 2 telas.
+
+Link do Frontend:
+https://landing-page-autoforce.vercel.app
